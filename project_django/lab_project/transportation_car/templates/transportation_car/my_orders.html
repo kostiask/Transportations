@@ -33,12 +33,7 @@
 
 <div class="col">
 
-  {% if length == 0 %}
-    <div>
-      Nie ma zlecen
-    </div>
   
-  {% else %}
   <div class="main-my-order">
     <h3>Twoje zlecennia</h3>
   </div>
@@ -64,17 +59,32 @@
     var date_2 = date2.getFullYear();
 
     if(date1.getMonth() + 1 < 10){
-      date_1+='-0'+(date1.getMonth()+1)+'-'+date1.getDate();
+      date_1+='-0'+(date1.getMonth()+1);
     }
     else{
-      date_1+='-'+(date1.getMonth()+1)+'-'+date1.getDate();
+      date_1+='-'+(date1.getMonth()+1);
     }
 
-    if(date2.getMonth() + 1 < 10){
-      date_2+='-0'+(date2.getMonth()+1)+'-'+date2.getDate();
+    if(date1.getDate()< 10){
+      date_1+='-0'+(date1.getDate());
     }
     else{
-      date_2+='-'+(date2.getMonth()+1)+'-'+date2.getDate();
+      date_1+='-'+(date1.getDate());
+    }
+    
+    
+    if(date2.getMonth() + 1 < 10){
+      date_2+='-0'+(date2.getMonth()+1);
+    }
+    else{
+      date_2+='-'+(date2.getMonth()+1);
+    }
+
+    if(date2.getDate()< 10){
+      date_2+='-0'+(date2.getDate());
+    }
+    else{
+      date_2+='-'+(date2.getDate());
     }
     
     $('#date1').val(date_1);
@@ -84,7 +94,6 @@
 
   </script>
 
-
   <script>
     document.getElementById('sub').onclick = function(){
       d1 = $('#date1').val()
@@ -92,6 +101,7 @@
       document.location.href = "/transportations/my_order/"+{{ user.id }}+"/1/"+d1+"/"+d2;
     }
   </script>
+
   <div class="result-search">
       
     <div class="search-1">
@@ -133,15 +143,18 @@
                 let active;
                 let pageCutLow = page - 1;
                 let pageCutHigh = page + 1;
+                d1 = $('#date1').val()
+                d2 = $('#date2').val()
+                  // document.location.href = "/transportations/my_order/"+{{ user.id }}+"/1/"+d1+"/"+d2;
                 // Show the Previous button only if you are on a page other than the first
                 if (page > 1) {
-                  str += '<li class="page-item previous no"><a href="/transportations/'+pageCutLow+'" onclick="createPagination(pages, '+(page-1)+')"><</a></li>';
+                  str += '<li class="page-item previous no"><a href="/transportations/my_order/'+{{ user.id }}+'/'+pageCutLow+'/'+d1+'/'+d2+'" onclick="createPagination(pages, '+(page-1)+')"><</a></li>';
                 }
                 // Show all the pagination elements if there are less than 6 pages total
                 if (pages < 6) {
                 for (let p = 1; p <= pages; p++) {
                   active = page == p ? "active" : "no";
-                  str += '<li class="'+active+'"><a href="/transportations/my_order/'+{{ user.id }}+'/'+p+'" onclick="createPagination(pages, '+p+')">'+ p +'</a></li>';
+                  str += '<li class="'+active+'"><a href="/transportations/my_order/'+{{ user.id }}+'/'+p+'/'+d1+'/'+d2+'" onclick="createPagination(pages, '+p+')">'+ p +'</a></li>';
                 }
               }
               // Use "..." to collapse pages outside of a certain range
@@ -204,12 +217,14 @@
     </div>
     
   </div>
+  {% if length == 0 %}
+  <div style="height: 270px;">
+    Nie ma zlecen
+  </div>
 
+  {% else %}
   
     {% for item in transportations %}
-
-
-
 
     <!-- <a class="super-link" href="{% url 'transportation' item.id %}"> -->
       <div class="test">
@@ -275,13 +290,7 @@
       </div>
       <!-- </a> -->
 
-
-
-
-
-
-  
-  {% endfor %}
+    {% endfor %}
 
   {% endif %}
 

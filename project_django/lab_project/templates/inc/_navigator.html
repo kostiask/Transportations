@@ -42,17 +42,28 @@
                         <script>
                             var today = new Date();
 
-                            var date2 = new Date("{{ user.date_joined }}");
-
+                            console.log('1 - ' + "{{ user.date_joined}}")
+                            console.log('date - ' + today.getDate())
+                            
+                            var date2 = new Date("{{ user.date_joined | date:"Y-m-d"}}");
+                            // var date2 =  new Date(Date.parse("1 czerwca 2021 13:16"));
                             var date = today.getFullYear();
 
                             var date_joined = date2.getFullYear();
 
                             if(today.getMonth() + 1 < 10){
-                                date+='-0'+(today.getMonth()+1)+'-'+today.getDate();
+                                date+='-0'+(today.getMonth()+1);//+'-'+today.getDate();
                             }
-                           else{
-                                date+='-'+(today.getMonth()+1)+'-'+today.getDate();
+                            else{
+                                date+='-'+(today.getMonth()+1);//+'-'+today.getDate();
+                            }
+
+                            if(today.getDate() < 10){
+                                date+='-1'+(today.getDate());
+                            }
+                            else{
+                                date+='-'+(today.getDate());
+
                             }
 
                             if(date2.getMonth() + 1 < 10){
@@ -61,6 +72,16 @@
                             else{
                                 date_joined+='-'+(date2.getMonth()+1)+'-'+date2.getDate();
                             }
+
+                            if(date2.getDate() < 10){
+                                date_joined+='-1'+(date2.getDate());
+                            }
+                            else{
+                                date_joined+='-'+(date2.getDate());
+                            }
+
+                            console.log(today);
+                            console.log(date2);
 
                             $('#date2').val(date);
                             $('#date1').val(date_joined);

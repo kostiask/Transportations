@@ -103,7 +103,7 @@
 
 
 
-    <div class="profile_2">
+  <div class="profile_2">
       <div class="block_photo">
         <div class="photo_2">
           {% if profile.photo %}
@@ -219,6 +219,8 @@
 
   </div>
 
+  <div style="height: 120px;"></div>
+
   <form action="{% url 'edit_photo' user.id %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="conteiner_change_photo">
@@ -260,7 +262,7 @@
     
     
   </div>
-</form>
+  </form>
 
 
   <script>
